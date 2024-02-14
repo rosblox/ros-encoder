@@ -5,11 +5,11 @@ def generate_launch_description():
 
     ld = LaunchDescription()
 
-    python_node = Node(
+    multiturn_encoder_node = Node(
             package='ros_encoder',
-            executable='python_node.py',
+            executable='multiturn_encoder_node.py',
         )
 
-    ld.add_action(python_node)
+    ld.add_action(multiturn_encoder_node)
 
     return ld
