@@ -16,7 +16,8 @@ install(DIRECTORY
 )
 
 install(PROGRAMS
-  ${PROJECT_NAME}/python_node.py
+  ${PROJECT_NAME}/multiturn_encoder_node.py
+  ${PROJECT_NAME}/encoder_interface.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
