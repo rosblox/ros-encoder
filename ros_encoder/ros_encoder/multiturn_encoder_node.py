@@ -1,6 +1,6 @@
 #!/bin/python3
 
-import pigpio
+import lgpio
 import yaml
 
 import rclpy
@@ -17,14 +17,15 @@ class MultiturnEncoder(Node):
     def __init__(self):
         super().__init__('multiturn_encoder_node')
 
-        self.pi = pigpio.pi()  # Initialize pigpio
-        self.encoder = Encoder(self.pi, pin_a=17, pin_b=18, scale=1)  # Adjust pins as needed
+        self.gpio_chip_handler = lgpio.gpiochip_open(0)  # Open the default GPIO chip
+        self.encoder = Encoder(self.gpio_chip_handler, pin_a=17, pin_b=18, scale=1)  # Adjust pins as needed
 
         self.reset_srv = self.create_service(Trigger, '~/reset', self.reset_callback)
         self.publisher = self.create_publisher(Float32, '~/turns', 5)
 
         self.file_path = '/tmp/turns.yaml'
         self.turns = self.load_turns_from_file()
+
         self.publish_turns()        
 
         timer_period = 0.5  # seconds
@@ -75,14 +76,8 @@ class MultiturnEncoder(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-
     multiturn_encoder = MultiturnEncoder()
-
     rclpy.spin(multiturn_encoder)
-
-    # Destroy the node explicitly
-    # (optional - otherwise it will be done automatically
-    # when the garbage collector destroys the node object)
     multiturn_encoder.destroy_node()
     rclpy.shutdown()
 

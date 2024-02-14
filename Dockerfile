@@ -5,7 +5,7 @@ FROM ros:${ROS_DISTRO}-ros-core
 RUN apt update && apt install -y --no-install-recommends \
     build-essential \
     python3-pip \
-    pigpio python3-pigpio \
+    python3-lgpio \
     python3-colcon-common-extensions \
     && rm -rf /var/lib/apt/lists/*
 
